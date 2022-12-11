@@ -26,9 +26,13 @@ def should_ignore(token):
 class GPT2Model:
     
 
-    def __init__(self, first_phrase="I think", toker = None, model = None):
-        self.seed_update_mode = 1 # 0 for original, 1 for new
-        self.time_advancement = False
+    def __init__(self, first_phrase="I think", toker = None, model = None, rotater_len = 0, time_data_dump = None):
+        if rotater_len != 0:
+            self.seed_update_mode = 1 # 0 for original, 1 for new
+        else:
+            self.seed_update_mode = 0
+        self.time_data = time_data_dump
+        self.time_advancement = True
         # GPT-2 and Pytorch params
         self.toker = toker
         self.model = model
@@ -38,7 +42,13 @@ class GPT2Model:
         self.current_seed = self.initial_seed
         self.current_token_distro = OrderedDict()
         # parameters for advanced seeding
-        self.seed_rotater = ["","",""]
+        self.seed_rotater = []
+        for i in range(0, rotater_len):
+            self.seed_rotater.append("")
+
+        print("rotater length")
+        print(len(self.seed_rotater) * self.seed_update_mode)
+        print("time in seconds")
         self.rotater_cursor = 0
         # Initialize to get the first token.
         self.next()
@@ -117,7 +127,7 @@ class GPT2Model:
             current_cumu += normalized_vals[i]
         t5 = time.perf_counter()
         if (self.time_advancement):
-            print(f"\n[Timeing] Obtain={t1 - t0:0.4f}s\tPrep={t3 - t2:0.4f}s\tGen={t5 - t4:0.4f}s");
+            self.time_data[len(self.seed_rotater)].append(t5 - t0)
 
 
 
