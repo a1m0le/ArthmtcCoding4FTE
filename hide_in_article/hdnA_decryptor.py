@@ -45,9 +45,12 @@ def run_decryption(eng, my_l, given_iv=None):
     remaining_tokens = []
     chunk_num = None
     print("\n\n____________________  Step 1: header searching  ____________________")
+    t_sc = time.perf_counter()
+    t_sc0 = time.perf_counter()
     for index in range(0, len(all_tokens)):
          t = all_tokens[index]
          seed_candidate_tokens.append(t)
+         
          if t == "." or t == "?" or t == "!":
              # we now have a seed candidate
              seed_candidate = "".join(seed_candidate_tokens)
@@ -62,13 +65,21 @@ def run_decryption(eng, my_l, given_iv=None):
                  print("] ",end="")
                  print(colored(" Cannot be extracted","red"))
                  seed_candidate_tokens = []
+                 print(f"HEADER EXTRACTION TOOK {time.perf_counter() - t_sc:0.4f} SECONDS.");
+                 t_sc = time.perf_counter()
                  continue
              chunk_num = crypto.check_header(bytes(extracted_header_bytes), seed_candidate)
              if chunk_num is not None:
+                 print(f"HEADER EXTRACTION TOOK {time.perf_counter() - t_sc:0.4f} SECONDS.");
+                 t_sc = time.perf_counter()
                  break;
              else:
                  seed_candidate_tokens = []
-             
+             print(f"HEADER EXTRACTION TOOK {time.perf_counter() - t_sc:0.4f} SECONDS.");
+             t_sc = time.perf_counter()
+
+    t_sc1 = time.perf_counter()
+    print(f"TOTAL HEADER EXTRACTION TOOK {t_sc1 - t_sc0:0.4f} SECONDS.");
     en = en_gpt2.GPT2ArthmEncoder(l=my_l, seed=seed_candidate, toker=toker, model=model)
     t5 = time.perf_counter()
     print(f"\nIntialization and searching took {t5 - t4:0.4f} s")
@@ -94,6 +105,9 @@ def run_decryption(eng, my_l, given_iv=None):
     print("===========================  Secret Message  ============================")
     print(new_msg)
     print("=========================================================================")
+
+    print(f"TOTAL DECRYPTION AFTERWARDS TOOK {time.perf_counter()- t_sc1:0.4f} SECONDS.");
+
 
 if __name__ == "__main__":
     arglist = sys.argv[1:]

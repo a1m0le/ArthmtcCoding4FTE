@@ -44,7 +44,6 @@ def run_decryption(eng, my_l, given_iv=None):
     t6 = time.perf_counter()
     print(f"Encoding generated sentences took {t6 - t5:0.4f} s")
     new_encoded = bytes(D)
-    print("NEW_ENCODED = "+new_encoded.hex())
     new_iv, new_ct = util.extract_iv_ct(new_encoded) 
     key = crypto.obtain_key("e2e")
     success = False
@@ -52,17 +51,11 @@ def run_decryption(eng, my_l, given_iv=None):
     print("Obtained iv="+new_iv.hex())
     print("Obtained ct="+new_ct.hex())
     print()
-    a = 0
-    while(a == 0):
-        try:
-            new_msg = crypto.decrypt_aes_cbc(key, new_iv, new_ct)
-            a = 1
-        except:
-            print("Decryption FAILED")
-            if (len(new_ct) <= 16):
-                exit(0)
-            new_ct = new_ct[:-16]
-            print("Try:"+new_ct.hex())
+    try:
+        new_msg = crypto.decrypt_aes_cbc(key, new_iv, new_ct)
+    except:
+        print("Decryption FAILED")
+        exit(1)
     print()
     print("===========================  Secret Message  ============================")
     print(new_msg)

@@ -1,0 +1,53 @@
+
+coding range = 32
+
+
+GPT-2 toker and model took 8.1557 s to initialize.
+Parsed out 321 Tokens
+
+
+____________________  Step 1: header searching  ____________________
+
+seed candidate = ' Microsoft Windows is probably the most popular piece of closed-source operating system out there.'
+Partial Encoding [=========================================================] extracted 32 bytes --> Cannot be decrypted
+HEADER EXTRACTION TOOK 6.6465 SECONDS.
+
+seed candidate = ' Being closed-source, Microsoft maintains the rights to every bit of code it has written, or bought, and does not allow others to use that code in their products.'
+Partial Encoding [=========================================================] extracted 32 bytes --> Cannot be decrypted
+HEADER EXTRACTION TOOK 6.8148 SECONDS.
+
+seed candidate = ' However, It does cause trouble to users.'
+Partial Encoding [===========================================================] extracted 32 bytes --> Cannot be decrypted
+HEADER EXTRACTION TOOK 6.6075 SECONDS.
+
+seed candidate = ' For example, no Windows user can take the Windows 7 interface, modify it, and make it work properly on Windows 8.'
+Partial Encoding [============================================================] extracted 32 bytes --> Cannot be decrypted
+HEADER EXTRACTION TOOK 7.2653 SECONDS.
+
+seed candidate = ' On the other hand, we have Linux.'
+Partial Encoding [=============================================================] extracted 32 bytes --> Cannot be decrypted
+HEADER EXTRACTION TOOK 6.8394 SECONDS.
+
+seed candidate = ' Linux is a clean, fast, and widespread open source Unix.'
+Partial Encoding [==========================================================] extracted 32 bytes --> Header discovered! chunk size = 0x04
+HEADER EXTRACTION TOOK 6.5589 SECONDS.
+TOTAL HEADER EXTRACTION TOOK 40.7325 SECONDS.
+
+Intialization and searching took 40.8476 s
+
+
+____________________  Step 2: decrypt the secret  __________________
+
+Encoding [============================================================================================================================================================================]
+
+Encoding generated sentences took 24.5497 s
+
+Obtained iv=79871dc6af2bd26866448fb38faf910a
+Obtained ct=6cdae62bab50ae7f7084cdcd0cd0409352e00f3e5a14dc2142edf4cf6812e2e81f0e6785f7e322c9081d0e55561286b2
+
+
+===========================  Secret Message  ============================
+His HBO Max password is fire&blood123
+=========================================================================
+TOTAL DECRYPTION AFTERWARDS TOOK 24.6501 SECONDS.
+
